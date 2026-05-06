@@ -27,4 +27,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const API_URL = 'http://localhost:3001/api';
+export const API_URL = 'https://quiz-app.up.railway.app/';
