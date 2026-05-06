@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "mcp__Claude_in_Chrome__computer",
+      "Bash(unzip -o stitch_quizvibe_leaderboard.zip -d stitch_export)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}

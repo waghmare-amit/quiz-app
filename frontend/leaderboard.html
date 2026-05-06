@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Leaderboard | QuizMaster Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-dim": "#0b1326", "tertiary": "#4edea3",
+          "surface-variant": "#2d3449", "on-surface-variant": "#cbc3d7",
+          "outline": "#958ea0", "primary": "#d0bcff", "on-background": "#dae2fd",
+          "primary-container": "#a078ff", "error-container": "#93000a",
+          "inverse-primary": "#6d3bd7", "secondary-container": "#6f00be",
+          "outline-variant": "#494454", "surface-container": "#171f33",
+          "surface-container-highest": "#2d3449", "surface-container-high": "#222a3d",
+          "tertiary-container": "#00a572", "on-primary": "#3c0091",
+          "surface": "#0b1326", "error": "#ffb4ab", "background": "#0b1326",
+          "secondary": "#ddb7ff", "surface-container-low": "#131b2e",
+          "on-surface": "#dae2fd",
+        },
+        "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        "spacing": { "md": "24px", "gutter": "24px", "xs": "4px", "container-max": "1200px", "lg": "48px", "base": "8px", "sm": "12px", "xl": "80px" },
+        "fontFamily": { "label-sm": ["Inter"], "label-md": ["Inter"], "headline-md": ["Inter"], "body-lg": ["Inter"], "display-xl": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"] },
+        "fontSize": {
+          "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+          "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+          "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+          "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+          "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid #334155; box-shadow: 0px 10px 30px rgba(0,0,0,0.5); }
+  .medal-gold { color: #FFD700; filter: drop-shadow(0 0 8px rgba(255,215,0,0.4)); }
+  .medal-silver { color: #C0C0C0; filter: drop-shadow(0 0 8px rgba(192,192,192,0.4)); }
+  .medal-bronze { color: #CD7F32; filter: drop-shadow(0 0 8px rgba(205,127,50,0.4)); }
+</style>
+</head>
+<body class="bg-surface-dim text-on-surface font-body-md min-h-screen flex flex-col">
+
+<header class="bg-surface sticky top-0 z-50 shadow-sm border-b border-outline-variant">
+  <div class="flex justify-between items-center w-full px-md md:px-lg max-w-container-max mx-auto h-16">
+    <a href="dashboard.html" class="text-headline-md font-headline-md font-extrabold text-primary">QuizMaster Pro</a>
+    <nav class="hidden md:flex items-center gap-md">
+      <a class="text-on-surface-variant font-label-md hover:text-primary transition-colors duration-200" href="dashboard.html">Dashboard</a>
+      <a class="text-primary border-b-2 border-primary font-bold pb-1" href="leaderboard.html">Leaderboard</a>
+    </nav>
+    <div class="flex items-center gap-sm">
+      <img id="user-avatar" alt="User avatar" class="w-8 h-8 rounded-full border border-primary shadow-sm" src="https://ui-avatars.com/api/?name=U&background=6d3bd7&color=fff"/>
+      <button id="btn-logout" class="text-label-md text-on-surface-variant hover:text-error transition-colors px-sm py-xs rounded-lg border border-outline-variant">Logout</button>
+    </div>
+  </div>
+</header>
+
+<div class="flex flex-1 max-w-container-max mx-auto w-full relative">
+  <main class="flex-1 p-gutter md:p-xl flex flex-col gap-lg">
+    <section class="flex flex-col gap-sm">
+      <h1 class="text-display-xl font-display-xl text-on-surface">Global Rankings</h1>
+      <p class="text-body-lg text-on-surface-variant max-w-2xl">Compete with the best minds across the world. Rise through the ranks and prove your mastery.</p>
+      <div class="flex items-center gap-sm mt-xs">
+        <span class="text-label-md text-on-surface-variant">Your Rank:</span>
+        <span id="your-rank" class="text-label-md font-bold text-primary">-</span>
+        <span class="text-label-md text-on-surface-variant ml-md">Score:</span>
+        <span id="your-score" class="text-label-md font-bold text-tertiary">0 pts</span>
+      </div>
+    </section>
+
+    <!-- Top 3 Podium -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-gutter items-end mt-sm">
+      <!-- Rank 2 (Silver) -->
+      <div id="podium-2nd" class="glass-card p-md rounded-xl flex flex-col items-center gap-sm order-2 md:order-1 h-fit transform hover:translate-y-[-8px] transition-transform duration-300">
+        <div class="relative">
+          <img data-field="avatar" alt="2nd place" class="w-20 h-20 rounded-full border-4 border-[#C0C0C0]" src="https://ui-avatars.com/api/?name=2&background=C0C0C0&color=fff"/>
+          <span class="material-symbols-outlined absolute -bottom-2 -right-2 medal-silver bg-surface-container p-1 rounded-full text-3xl">military_tech</span>
+        </div>
+        <div class="text-center">
+          <h3 data-field="name" class="text-headline-md font-headline-md">-</h3>
+          <p data-field="score" class="text-primary font-bold">0 PTS</p>
+        </div>
+      </div>
+
+      <!-- Rank 1 (Gold) -->
+      <div id="podium-1st" class="glass-card p-lg rounded-xl flex flex-col items-center gap-md order-1 md:order-2 border-primary/50 border-2 bg-primary/5 transform hover:translate-y-[-12px] transition-transform duration-300">
+        <div class="relative">
+          <img data-field="avatar" alt="1st place" class="w-24 h-24 rounded-full border-4 border-[#FFD700]" src="https://ui-avatars.com/api/?name=1&background=8B5CF6&color=fff"/>
+          <span class="material-symbols-outlined absolute -bottom-3 -right-3 medal-gold bg-surface-container p-1 rounded-full text-4xl" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+        </div>
+        <div class="text-center">
+          <h3 data-field="name" class="text-headline-lg font-headline-lg text-primary">-</h3>
+          <p data-field="score" class="text-tertiary font-bold text-headline-md">0 PTS</p>
+          <span class="inline-block mt-xs px-3 py-1 bg-primary/20 text-primary text-label-sm rounded-full border border-primary/30">Global #1</span>
+        </div>
+      </div>
+
+      <!-- Rank 3 (Bronze) -->
+      <div id="podium-3rd" class="glass-card p-md rounded-xl flex flex-col items-center gap-sm order-3 md:order-3 h-fit transform hover:translate-y-[-8px] transition-transform duration-300">
+        <div class="relative">
+          <img data-field="avatar" alt="3rd place" class="w-20 h-20 rounded-full border-4 border-[#CD7F32]" src="https://ui-avatars.com/api/?name=3&background=CD7F32&color=fff"/>
+          <span class="material-symbols-outlined absolute -bottom-2 -right-2 medal-bronze bg-surface-container p-1 rounded-full text-3xl">military_tech</span>
+        </div>
+        <div class="text-center">
+          <h3 data-field="name" class="text-headline-md font-headline-md">-</h3>
+          <p data-field="score" class="text-primary font-bold">0 PTS</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leaderboard Table -->
+    <section class="glass-card rounded-xl overflow-hidden mt-md">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-surface-container-highest/50 border-b border-outline-variant">
+            <tr>
+              <th class="px-md py-4 text-label-md text-on-surface-variant">Rank</th>
+              <th class="px-md py-4 text-label-md text-on-surface-variant">Player</th>
+              <th class="px-md py-4 text-label-md text-on-surface-variant">Total Score</th>
+              <th class="px-md py-4 text-label-md text-on-surface-variant">Quizzes</th>
+              <th class="px-md py-4 text-label-md text-on-surface-variant">Last Active</th>
+              <th class="px-md py-4 text-label-md text-on-surface-variant text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-table-body" class="divide-y divide-outline-variant">
+            <tr>
+              <td colspan="6" class="px-md py-lg text-center text-on-surface-variant">Loading leaderboard...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer class="bg-surface-dim border-t border-outline-variant mt-auto">
+  <div class="w-full py-lg px-md flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto gap-md">
+    <div class="flex flex-col items-center md:items-start gap-xs">
+      <div class="text-label-md font-bold text-on-surface">QuizMaster Pro</div>
+      <p class="text-body-md text-on-surface-variant">© 2024 QuizMaster Pro. Elevate your knowledge.</p>
+    </div>
+    <div class="flex gap-md">
+      <a class="text-on-surface-variant font-label-sm hover:text-primary transition-colors" href="#">Privacy Policy</a>
+      <a class="text-on-surface-variant font-label-sm hover:text-primary transition-colors" href="#">Terms of Service</a>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="./js/leaderboard.js"></script>
+</body>
+</html>

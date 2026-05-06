@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Console | QuizMaster Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-dim": "#0b1326", "tertiary": "#4edea3",
+          "surface-variant": "#2d3449", "on-surface-variant": "#cbc3d7",
+          "outline": "#958ea0", "primary": "#d0bcff", "on-background": "#dae2fd",
+          "primary-container": "#a078ff", "error-container": "#93000a",
+          "inverse-primary": "#6d3bd7", "secondary-container": "#6f00be",
+          "outline-variant": "#494454", "surface-container": "#171f33",
+          "surface-container-highest": "#2d3449", "surface-container-high": "#222a3d",
+          "tertiary-container": "#00a572", "on-primary": "#3c0091",
+          "surface": "#0b1326", "error": "#ffb4ab", "background": "#0b1326",
+          "secondary": "#ddb7ff", "surface-container-low": "#131b2e",
+          "on-surface": "#dae2fd",
+        },
+        "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        "spacing": { "md": "24px", "gutter": "24px", "xs": "4px", "container-max": "1200px", "lg": "48px", "base": "8px", "sm": "12px", "xl": "80px" },
+        "fontFamily": { "label-sm": ["Inter"], "label-md": ["Inter"], "headline-md": ["Inter"], "body-lg": ["Inter"], "display-xl": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"] },
+        "fontSize": {
+          "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+          "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+          "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+          "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+          "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .glass-effect { backdrop-filter: blur(12px); background: rgba(255,255,255,0.05); }
+</style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+
+<!-- Sidebar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-md z-40 bg-surface-container-low border-r border-outline-variant w-64">
+  <div class="px-md mb-xl">
+    <a href="dashboard.html" class="block mb-xs">
+      <h1 class="text-headline-md font-extrabold text-primary">QuizMaster Pro</h1>
+    </a>
+    <p class="text-on-surface-variant text-label-sm">Admin Console</p>
+  </div>
+  <nav class="flex-1 space-y-base px-sm">
+    <a class="flex items-center gap-sm px-md py-sm transition-all duration-200 hover:bg-surface-container-highest hover:text-on-surface text-on-surface-variant rounded-lg group" href="dashboard.html">
+      <span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+      <span class="text-label-md font-label-md">Dashboard</span>
+    </a>
+    <a class="flex items-center gap-sm px-md py-sm transition-all duration-200 text-primary font-bold border-r-4 border-primary bg-surface-container-high rounded-lg group" href="admin.html">
+      <span class="material-symbols-outlined">quiz</span>
+      <span class="text-label-md font-label-md">Admin Panel</span>
+    </a>
+    <a class="flex items-center gap-sm px-md py-sm transition-all duration-200 hover:bg-surface-container-highest hover:text-on-surface text-on-surface-variant rounded-lg group" href="leaderboard.html">
+      <span class="material-symbols-outlined group-hover:text-primary">leaderboard</span>
+      <span class="text-label-md font-label-md">Leaderboard</span>
+    </a>
+  </nav>
+  <div class="px-md mt-auto pt-md">
+    <button id="btn-logout" class="w-full flex items-center justify-center gap-xs border border-outline-variant text-on-surface-variant py-sm rounded-xl font-bold transition-all active:scale-95 hover:text-error hover:border-error">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="text-label-md">Logout</span>
+    </button>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="ml-64 p-xl max-w-[1400px] mx-auto">
+  <header class="flex justify-between items-center mb-xl">
+    <div>
+      <h2 class="text-headline-lg font-headline-lg text-on-surface mb-xs">Manage Questions</h2>
+      <nav class="flex items-center gap-xs text-on-surface-variant text-label-sm">
+        <span>Admin</span>
+        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+        <span class="text-primary">Questions</span>
+      </nav>
+    </div>
+  </header>
+
+  <div class="grid grid-cols-12 gap-gutter mb-xl">
+    <!-- Questions table -->
+    <section class="col-span-12 lg:col-span-8">
+      <div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+        <div class="p-md border-b border-outline-variant bg-surface-container flex justify-between items-center">
+          <h3 class="text-headline-md font-headline-md">Questions Registry</h3>
+          <div class="flex items-center gap-sm text-label-sm text-on-surface-variant">
+            Total: <span id="stat-total" class="text-primary font-bold">0</span>
+            &nbsp;|&nbsp; Categories: <span id="stat-categories" class="text-secondary font-bold">0</span>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container-highest/30 text-on-surface-variant border-b border-outline-variant">
+                <th class="px-md py-md font-label-md text-label-md">Question</th>
+                <th class="px-md py-md font-label-md text-label-md">Category</th>
+                <th class="px-md py-md font-label-md text-label-md">Difficulty</th>
+                <th class="px-md py-md font-label-md text-label-md text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="questions-tbody" class="divide-y divide-outline-variant">
+              <tr>
+                <td colspan="4" class="px-md py-lg text-center text-on-surface-variant">Loading questions...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add/Edit Question form -->
+    <section class="col-span-12 lg:col-span-4">
+      <div class="bg-surface-container border border-outline-variant rounded-xl p-md shadow-lg sticky top-md">
+        <div class="flex items-center gap-sm mb-md">
+          <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined">add_circle</span>
+          </div>
+          <h3 id="form-title" class="text-headline-md font-headline-md text-on-surface">New Question</h3>
+        </div>
+
+        <form id="question-form" class="space-y-md">
+          <div>
+            <label class="block text-label-md mb-xs text-on-surface-variant">Question Text</label>
+            <textarea id="q-text" class="w-full bg-surface-dim border border-outline-variant rounded-lg p-sm text-body-md focus:ring-2 focus:ring-primary focus:outline-none focus:border-transparent resize-none" placeholder="Type your question here..." rows="3"></textarea>
+          </div>
+
+          <div class="space-y-sm">
+            <label class="block text-label-md text-on-surface-variant">Options</label>
+            <div class="relative">
+              <input id="q-opt-a" class="w-full bg-surface-dim border border-outline-variant rounded-lg p-sm pl-10 text-body-md focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Option A" type="text"/>
+              <div class="absolute left-sm top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface-container-highest text-label-sm flex items-center justify-center font-bold text-on-surface-variant">A</div>
+            </div>
+            <div class="relative">
+              <input id="q-opt-b" class="w-full bg-surface-dim border border-outline-variant rounded-lg p-sm pl-10 text-body-md focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Option B" type="text"/>
+              <div class="absolute left-sm top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface-container-highest text-label-sm flex items-center justify-center font-bold text-on-surface-variant">B</div>
+            </div>
+            <div class="relative">
+              <input id="q-opt-c" class="w-full bg-surface-dim border border-outline-variant rounded-lg p-sm pl-10 text-body-md focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Option C" type="text"/>
+              <div class="absolute left-sm top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface-container-highest text-label-sm flex items-center justify-center font-bold text-on-surface-variant">C</div>
+            </div>
+            <div class="relative">
+              <input id="q-opt-d" class="w-full bg-surface-dim border border-outline-variant rounded-lg p-sm pl-10 text-body-md focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Option D" type="text"/>
+              <div class="absolute left-sm top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface-container-highest text-label-sm flex items-center justify-center font-bold text-on-surface-variant">D</div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-label-md mb-xs text-on-surface-variant">Correct Answer</label>
+            <select id="q-correct" class="w-full bg-surface-dim border border-outline-variant rounded-lg p-sm text-body-md focus:ring-2 focus:ring-primary focus:outline-none">
+              <option value="0">A</option>
+              <option value="1">B</option>
+              <option value="2">C</option>
+              <option value="3">D</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-md">
+            <div>
+              <label class="block text-label-md mb-xs text-on-surface-variant">Difficulty</label>
+              <select id="q-difficulty" class="w-full bg-surface-dim border border-outline-variant rounded-lg p-sm text-body-md focus:ring-2 focus:ring-primary focus:outline-none">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-label-md mb-xs text-on-surface-variant">Category</label>
+              <select id="q-category" class="w-full bg-surface-dim border border-outline-variant rounded-lg p-sm text-body-md focus:ring-2 focus:ring-primary focus:outline-none">
+                <option value="General">General</option>
+                <option value="Science">Science</option>
+                <option value="History">History</option>
+                <option value="Technology">Technology</option>
+                <option value="Geography">Geography</option>
+                <option value="Mathematics">Mathematics</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex gap-sm pt-sm">
+            <button id="btn-submit-form" class="flex-1 bg-primary text-on-primary py-sm rounded-xl font-bold hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/20" type="submit">
+              Publish Question
+            </button>
+            <button id="btn-cancel-edit" class="hidden px-md py-sm border border-outline-variant text-on-surface-variant rounded-xl hover:bg-surface-container-high transition-colors" type="button">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <!-- Stats section -->
+  <section class="mt-xl pb-xl">
+    <div class="flex items-center gap-md mb-lg">
+      <span class="material-symbols-outlined text-secondary">trending_up</span>
+      <h3 class="text-headline-md font-headline-md">Database Health</h3>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+      <div class="bg-surface-container-low border border-outline-variant p-md rounded-xl">
+        <p class="text-on-surface-variant text-label-md mb-xs">Total Questions</p>
+        <p id="db-total" class="text-display-xl font-display-xl text-primary">0</p>
+      </div>
+      <div class="bg-surface-container-low border border-outline-variant p-md rounded-xl">
+        <p class="text-on-surface-variant text-label-md mb-xs">Categories</p>
+        <p id="db-categories" class="text-display-xl font-display-xl text-secondary">0</p>
+      </div>
+      <div class="bg-surface-container-low border border-outline-variant p-md rounded-xl col-span-2">
+        <p class="text-on-surface-variant text-label-md mb-xs">Status</p>
+        <p class="text-display-xl font-display-xl text-tertiary">Live</p>
+        <p class="text-label-sm text-on-surface-variant mt-xs">Backend connected</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="./js/admin.js"></script>
+</body>
+</html>

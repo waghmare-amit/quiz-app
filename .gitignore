@@ -1,0 +1,15 @@
+node_modules/
+.env
+*.json.bak
+
+# Firebase service account key - never commit this
+*-firebase-adminsdk-*.json
+*serviceAccountKey*.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Exports/zips
+*.zip
+stitch_export/
