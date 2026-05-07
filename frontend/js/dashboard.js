@@ -35,7 +35,10 @@ async function init() {
 function renderCategories() {
   const container = document.getElementById('categories-grid');
   container.innerHTML = CATEGORIES.map(cat => `
-    <div class="glass-card p-md rounded-xl flex flex-col justify-between group">
+    <div
+      class="glass-card p-md rounded-xl flex flex-col justify-between group cursor-pointer"
+      onclick="startQuiz('${cat.name}','Easy')"
+    >
       <div class="flex justify-between items-start mb-md">
         <div class="p-sm rounded-lg bg-${cat.color}-container/20 text-${cat.color}">
           <span class="material-symbols-outlined text-[32px]">${cat.icon}</span>
@@ -43,7 +46,7 @@ function renderCategories() {
         <div class="flex gap-xs flex-wrap justify-end">
           ${DIFFICULTIES.map(d => `
             <button
-              onclick="startQuiz('${cat.name}','${d}')"
+              onclick="event.stopPropagation(); startQuiz('${cat.name}','${d}')"
               class="px-sm py-xs rounded-full bg-surface-container-highest text-on-surface-variant text-label-sm border border-outline-variant hover:border-${cat.color}/50 hover:text-${cat.color} transition-colors cursor-pointer"
             >${d}</button>
           `).join('')}
